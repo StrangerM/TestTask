@@ -9,17 +9,43 @@ namespace TestTask
         static void Main(string[] args)
         {
             IEnumerable<int> result = new List<int>();
-
-            result = CheckNumSum(-170, 170, 0);
-
-            if(result.Count() == 0) 
-                Console.WriteLine("There is no acceptable number according to the conditions of the task ");
-            else 
+            while (true)
             {
-               foreach(var item in result) 
-                 Console.WriteLine("There is acceptable number according to the conditions of the task- {0}", item);
+                Console.WriteLine("Please input min value");
+                var firstNumber = Console.ReadLine();
+                int min, max, sum;
+                if (!Validator.ConvertTo(firstNumber, out min))
+                {
+                    Console.WriteLine("Please input number in correct format and press enter");
+                    continue;
+                }
+                Console.WriteLine("Please input max value and press enter");
+                var secondNumber = Console.ReadLine();
+                if (!Validator.ConvertTo(secondNumber, out max) || max < min)
+                {
+                    Console.WriteLine("Please input number in correct format or max has to be bigger than min");
+                    continue;
+                }
+                Console.WriteLine("Please input sum value and press enter");
+                var sumValuer = Console.ReadLine();
+                if (!Validator.ConvertTo(sumValuer, out sum))
+                {
+                    Console.WriteLine("Please input number in correct format");
+                    continue;
+                }
+
+                result = CheckNumSum(min,max,sum);
+
+                if (result.Count() == 0)
+                    Console.WriteLine("There is no acceptable number according to the conditions of the task ");
+                else
+                {
+                    foreach (var item in result)
+                        Console.WriteLine("There is acceptable number according to the conditions of the task- {0}", item);
+                }
+               
+                Console.WriteLine( "To continue again press any button" );
             }
-            Console.ReadLine();
         }
 
         public static IEnumerable<int> CheckNumSum(int min, int max, int sum) 
