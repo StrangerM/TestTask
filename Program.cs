@@ -34,8 +34,8 @@ namespace TestTask
                     continue;
                 }
 
-                result = CheckNumSum(min,max,sum);
-
+                // result = CheckNumSum(min,max,sum);
+                result = CheckNumSumWithoutUsingString(min, max, sum);
                 if (result.Count() == 0)
                     Console.WriteLine("There is no acceptable number according to the conditions of the task ");
                 else
@@ -45,6 +45,7 @@ namespace TestTask
                 }
                
                 Console.WriteLine( "To continue again press any button" );
+                Console.ReadKey();
             }
         }
 
@@ -73,6 +74,41 @@ namespace TestTask
                 }
             }
             return result;
+        }
+        public static IEnumerable<int> SplitNumber(int someNumber)
+        {
+            bool minus = false;
+            List<int> listOfInts = new List<int>();
+            if (someNumber < 0)
+            {
+                someNumber *= -1;
+                minus = true;
+            }
+            while (someNumber > 0)
+            {    
+                listOfInts.Add(someNumber % 10);
+                someNumber /= 10;
+            }
+            listOfInts.Reverse();
+            if (minus)
+                 listOfInts[0] *= -1;
+
+            return listOfInts;
+
+        }
+        public static IEnumerable<int> CheckNumSumWithoutUsingString(int min, int max, int sum)
+        {
+            List<int> result = new List<int>();
+
+            for (int x = min; x <= max; x++)
+            {
+                var listInteger = SplitNumber(x);
+                var sumOfInt = listInteger.Sum(x => x);
+                if (sumOfInt == sum)
+                    result.Add(x);
+            }
+            return result;
+
         }
     }
 }
